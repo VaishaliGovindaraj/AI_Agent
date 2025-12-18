@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test-key": "node test-api-key.js"
+    "test-key": "node test-api-simple.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
