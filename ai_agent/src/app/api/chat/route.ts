@@ -57,10 +57,21 @@ Be thorough, accurate, and objective in your responses.`
         },
       ],
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error in chat API:', error);
+    console.error('Error details:', {
+      message: error?.message,
+      status: error?.status,
+      statusText: error?.statusText,
+      errorDetails: error?.errorDetails
+    });
+
     return NextResponse.json(
-      { error: 'Failed to process request. Please check your API key.' },
+      {
+        error: 'Failed to process request',
+        details: error?.message || 'Unknown error',
+        suggestion: 'Check console for details'
+      },
       { status: 500 }
     );
   }

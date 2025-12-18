@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test-key": "node test-api-key.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
     "jspdf": "^3.0.4",
     "next": "16.0.10",
     "react": "19.2.1",
