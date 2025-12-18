@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     // Use AI to synthesize the information
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-pro',
       systemInstruction: 'You are a research synthesis expert. Analyze the provided search results and create a comprehensive research summary.'
     });
 

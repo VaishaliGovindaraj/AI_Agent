@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     // Initialize the model
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-pro',
       systemInstruction: `You are an intelligent research assistant. Your role is to help users research topics by:
 1. Providing comprehensive, well-researched information
 2. Citing sources and reasoning
