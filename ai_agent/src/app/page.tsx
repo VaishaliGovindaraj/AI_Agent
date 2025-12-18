@@ -76,7 +76,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 px-6 py-3">
         <div className="max-w-7xl mx-auto text-center text-sm text-zinc-500 dark:text-zinc-400">
-          Powered by Claude AI | Built with Next.js
+          Powered by Google Gemini AI (FREE!) | Built with Next.js
         </div>
       </footer>
     </div>

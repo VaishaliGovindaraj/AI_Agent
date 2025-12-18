@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
-import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || '',
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 // Simulated web search function (in production, you'd use a real search API)
 async function simulatedWebSearch(query: string) {
@@ -51,14 +49,12 @@ export async function POST(req: NextRequest) {
       .join('\n\n');
 
     // Use AI to synthesize the information
-    const response = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 4096,
-      system: `You are a research synthesis expert. Analyze the provided search results and create a comprehensive research summary.`,
-      messages: [
-        {
-          role: 'user',
-          content: `Research topic: ${topic}
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-1.5-flash',
+      systemInstruction: 'You are a research synthesis expert. Analyze the provided search results and create a comprehensive research summary.'
+    });
+
+    const prompt = `Research topic: ${topic}
 
 Search Results:
 ${searchContext}
@@ -69,14 +65,11 @@ Please provide:
 3. Detailed Analysis
 4. Implications and Applications
 5. Suggested Areas for Further Research
-6. Sources (cite the numbered sources above)`,
-        },
-      ],
-    });
+6. Sources (cite the numbered sources above)`;
 
-    const synthesis = response.content[0].type === 'text'
-      ? response.content[0].text
-      : '';
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const synthesis = response.text();
 
     return NextResponse.json({
       topic,

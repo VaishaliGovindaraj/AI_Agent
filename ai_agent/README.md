@@ -1,6 +1,6 @@
 # AI Research Assistant
 
-An intelligent research assistant powered by Claude AI that helps users conduct comprehensive research, synthesize information, and manage knowledge effectively.
+An intelligent research assistant powered by **Google Gemini AI (100% FREE!)** that helps users conduct comprehensive research, synthesize information, and manage knowledge effectively.
 
 ## Features
 
@@ -26,7 +26,7 @@ An intelligent research assistant powered by Claude AI that helps users conduct 
 
 - **Frontend**: Next.js 16, React 19, TypeScript
 - **Styling**: Tailwind CSS 4
-- **AI**: Anthropic Claude 3.5 Sonnet
+- **AI**: Google Gemini 1.5 Flash (FREE!)
 - **API**: Next.js API Routes
 
 ## Getting Started
@@ -35,7 +35,7 @@ An intelligent research assistant powered by Claude AI that helps users conduct 
 
 - Node.js 18 or higher
 - npm or yarn
-- Anthropic API key ([Get one here](https://console.anthropic.com/))
+- **FREE Google Gemini API key** ([Get one here](https://aistudio.google.com/app/apikey))
 
 ### Installation
 
@@ -55,17 +55,23 @@ npm install
 cp .env.example .env.local
 ```
 
-4. Add your Anthropic API key to `.env.local`:
+4. Get your **FREE** Google Gemini API key:
+   - Visit https://aistudio.google.com/app/apikey
+   - Sign in with your Google account
+   - Click "Create API Key"
+   - Copy the generated key
+
+5. Add your Google Gemini API key to `.env.local`:
 ```
-ANTHROPIC_API_KEY=your_api_key_here
+GEMINI_API_KEY=your_api_key_here
 ```
 
-5. Run the development server:
+6. Run the development server:
 ```bash
 npm run dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+7. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Project Structure
 
@@ -141,9 +147,16 @@ For detailed documentation, see [AI_Research_Assistant_Documentation.pdf](./AI_R
 
 MIT
 
+## Why Google Gemini?
+
+- **100% FREE**: No credit card required, generous free tier
+- **Fast**: Gemini 1.5 Flash provides quick responses
+- **Powerful**: Advanced AI capabilities for research and synthesis
+- **Easy Setup**: Get your API key in seconds
+
 ## Built With
 
 - [Next.js](https://nextjs.org/)
 - [React](https://react.dev/)
-- [Anthropic Claude AI](https://www.anthropic.com/)
+- [Google Gemini AI](https://ai.google.dev/) - FREE!
 - [Tailwind CSS](https://tailwindcss.com/)

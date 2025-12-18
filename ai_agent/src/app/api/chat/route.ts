@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || '',
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,38 +14,43 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Build messages array
-    const messages = [
-      ...(conversationHistory || []),
-      {
-        role: 'user',
-        content: message,
-      },
-    ];
-
-    // Call Anthropic API
-    const response = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 4096,
-      system: `You are an intelligent research assistant. Your role is to help users research topics by:
+    // Initialize the model
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-1.5-flash',
+      systemInstruction: `You are an intelligent research assistant. Your role is to help users research topics by:
 1. Providing comprehensive, well-researched information
 2. Citing sources and reasoning
 3. Synthesizing information from multiple perspectives
 4. Identifying key insights and patterns
 5. Suggesting related topics for deeper exploration
 
-Be thorough, accurate, and objective in your responses.`,
-      messages: messages,
+Be thorough, accurate, and objective in your responses.`
     });
 
-    const assistantMessage = response.content[0].type === 'text'
-      ? response.content[0].text
-      : '';
+    // Build conversation history for Gemini
+    const history = (conversationHistory || []).map((msg: any) => ({
+      role: msg.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: msg.content }],
+    }));
+
+    // Start chat with history
+    const chat = model.startChat({
+      history: history,
+    });
+
+    // Send message and get response
+    const result = await chat.sendMessage(message);
+    const response = await result.response;
+    const assistantMessage = response.text();
 
     return NextResponse.json({
       response: assistantMessage,
       conversationHistory: [
-        ...messages,
+        ...(conversationHistory || []),
+        {
+          role: 'user',
+          content: message,
+        },
         {
           role: 'assistant',
           content: assistantMessage,
@@ -57,7 +60,7 @@ Be thorough, accurate, and objective in your responses.`,
   } catch (error) {
     console.error('Error in chat API:', error);
     return NextResponse.json(
-      { error: 'Failed to process request' },
+      { error: 'Failed to process request. Please check your API key.' },
       { status: 500 }
     );
   }
